@@ -135,7 +135,9 @@ int main(int argc, char* argv[]) {
 		if (string(argv[1]) == "-a") {
 			int algo = checkAlgoValid(argv[2]);
 			if (algo) {
-				if (argc == 6 && atoi(argv[3]) <= 1000000) {
+				if (argc == 6) {
+					if (atoi(argv[3]) > 1000000 || atoi(argv[3]) <= 0)
+						return 0;
 					int order = checkOrderValid(argv[4]), output = checkOutputValid(argv[5]);
 					if (order && output) {
 						cmd2(algo, argv[2], atoi(argv[3]), order, argv[4], output);
@@ -147,8 +149,10 @@ int main(int argc, char* argv[]) {
 						cmd1(algo, argv[2], argv[3], output);
 				}
 				else {
+					if (atoi(argv[3]) > 1000000 || atoi(argv[3]) <= 0)
+						return 0;
 					int output = checkOutputValid(string(argv[4]));
-					if (output && atoi(argv[3]) <= 1000000)
+					if (output)
 						cmd3(algo, argv[2], atoi(argv[3]), output);
 				}
 			}
@@ -161,8 +165,10 @@ int main(int argc, char* argv[]) {
 					cmd4(algo1, argv[2], algo2, argv[3], argv[4]);
 				}
 				else {
+					if (atoi(argv[3]) > 1000000 || atoi(argv[3]) <= 0)
+						return 0;
 					int order = checkOrderValid(argv[5]);
-					if (order && atoi(argv[3]) <= 1000000)
+					if (order)
 						cmd5(algo1, argv[2], algo2, argv[3], atoi(argv[4]), order, argv[5]);
 				}
 			}

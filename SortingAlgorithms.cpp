@@ -262,24 +262,21 @@ void merge_Time(int A[], int left, int mid, int right) {
 	delete[]R;
 }
 
-void mergeSort_Time(int A[], int left, int right, double& t) {
-	auto start = chrono::high_resolution_clock::now();
+void mergeSort_Time(int A[], int left, int right) {
 	if (left < right) {
 		int mid = (left + right) / 2;
-		mergeSort_Time(A, left, mid, t);
-		mergeSort_Time(A, mid + 1, right, t);
+		mergeSort_Time(A, left, mid);
+		mergeSort_Time(A, mid + 1, right);
 		merge_Time(A, left, mid, right);
 	}
-	auto end = chrono::high_resolution_clock::now();
-	t += chrono::duration_cast<chrono::milliseconds>(end - start).count();
 }
 
-//void CountTimeMergeSort(int A[], int left, int right, double& t) {
-//	auto start = chrono::high_resolution_clock::now();
-//	MergeSort_Time(A, left, right);
-//	auto end = chrono::high_resolution_clock::now();
-//	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-//}
+void mergeSort_Time(int A[], int left, int right, double& t) {
+	auto start = chrono::high_resolution_clock::now();
+	mergeSort_Time(A, left, right);
+	auto end = chrono::high_resolution_clock::now();
+	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+}
 
 void merge_Compare(int A[], int left, int mid, int right, long long& cmp) {
 	int nA = mid - left + 1;
@@ -351,89 +348,93 @@ void mergeSort(int a[], int size, double& t, long long& cmp, int output, string 
 }
 
 //QUICK SORT
-int partition_Time(int arr[], int low, int high) {
-	int i = low;
-	int j = high;
-	int pivot = arr[low];
-	while (i < j) {
-		while (pivot >= arr[i])
-			i++;
-		while (pivot < arr[j])
-			j--;
-		if (i < j)
-			swap(arr[i], arr[j]);
-	}
-	swap(arr[low], arr[j]);
-	return j;
-}
-
-int median_Time(int arr[], int low, int high) {
-	int middle = (low + high) / 2;
-
-	if (arr[low] > arr[middle])
-		swap(arr[middle], arr[low]);
-	if (arr[low] > arr[high])
-		swap(arr[low], arr[high]);
-	if (arr[middle] > arr[high])
-		swap(arr[high], arr[middle]);
-
-	swap(arr[middle], arr[low]);
-
-	return partition_Time(arr, low, high);
-}
-
-void quickSort_Time(int arr[], int low, int high, double& t) {
-	auto start = chrono::high_resolution_clock::now();
-	if (low < high) {
-		int pivot = median_Time(arr, low, high);
-		quickSort_Time(arr, low, pivot - 1, t);
-		quickSort_Time(arr, pivot + 1, high, t);
-	}
-	auto end = chrono::high_resolution_clock::now();
-	t += chrono::duration_cast<chrono::milliseconds>(end - start).count();
-}
-
-int partition_Compare(int arr[], int low, int high, long long& cmp) {
-	int i = low;
-	int j = high;
-	int pivot = arr[low];
-	while (++cmp && i < j) {
-		while (++cmp && pivot >= arr[i])
-			i++;
-		while (++cmp && pivot < arr[j])
-			j--;
-		if (++cmp && i < j)
-			swap(arr[i], arr[j]);
-	}
-	swap(arr[low], arr[j]);
-	return j;
-}
-
-int median_Compare(int arr[], int low, int high, long long& cmp) {
-	int middle = (low + high) / 2;
-
-	if (++cmp && arr[low] > arr[middle])
-		swap(arr[middle], arr[low]);
-	if (++cmp && arr[low] > arr[high])
-		swap(arr[low], arr[high]);
-	if (++cmp && arr[middle] > arr[high])
-		swap(arr[high], arr[middle]);
-
-	swap(arr[middle], arr[low]);
-
-	return partition_Compare(arr, low, high, cmp);
-}
-
-void quickSort_Compare(int arr[], int low, int high, long long& cmp) {
-	if (++cmp && low < high) {
-		int pivot = median_Compare(arr, low, high, cmp);
-		quickSort_Compare(arr, low, pivot - 1, cmp);
-		quickSort_Compare(arr, pivot + 1, high, cmp);
-	}
-}
+//int partition_Time(int arr[], int low, int high) {
+//	int i = low;
+//	int j = high;
+//	int pivot = arr[low];
+//	while (i < j) {
+//		while (pivot >= arr[i])
+//			i++;
+//		while (pivot < arr[j])
+//			j--;
+//		if (i < j)
+//			swap(arr[i], arr[j]);
+//	}
+//	swap(arr[low], arr[j]);
+//	return j;
+//}
+//
+//int median_Time(int arr[], int low, int high) {
+//	int middle = (low + high) / 2;
+//
+//	if (arr[low] > arr[middle])
+//		swap(arr[middle], arr[low]);
+//	if (arr[low] > arr[high])
+//		swap(arr[low], arr[high]);
+//	if (arr[middle] > arr[high])
+//		swap(arr[high], arr[middle]);
+//
+//	swap(arr[middle], arr[low]);
+//
+//	return partition_Time(arr, low, high);
+//}
+//
+//void quickSort_Time(int arr[], int low, int high) {
+//	if (low < high) {
+//		int pivot = median_Time(arr, low, high);
+//		quickSort_Time(arr, low, pivot - 1);
+//		quickSort_Time(arr, pivot + 1, high);
+//	}
+//}
+//
+//void quickSort_Time(int arr[], int low, int high, double& t) {
+//	auto start = chrono::high_resolution_clock::now();
+//	quickSort_Time(arr, low, high, t);
+//	auto end = chrono::high_resolution_clock::now();
+//	t += chrono::duration_cast<chrono::milliseconds>(end - start).count();
+//}
+//
+//int partition_Compare(int arr[], int low, int high, long long& cmp) {
+//	int i = low;
+//	int j = high;
+//	int pivot = arr[low];
+//	while (++cmp && i < j) {
+//		while (++cmp && pivot >= arr[i])
+//			i++;
+//		while (++cmp && pivot < arr[j])
+//			j--;
+//		if (++cmp && i < j)
+//			swap(arr[i], arr[j]);
+//	}
+//	swap(arr[low], arr[j]);
+//	return j;
+//}
+//
+//int median_Compare(int arr[], int low, int high, long long& cmp) {
+//	int middle = (low + high) / 2;
+//
+//	if (++cmp && arr[low] > arr[middle])
+//		swap(arr[middle], arr[low]);
+//	if (++cmp && arr[low] > arr[high])
+//		swap(arr[low], arr[high]);
+//	if (++cmp && arr[middle] > arr[high])
+//		swap(arr[high], arr[middle]);
+//
+//	swap(arr[middle], arr[low]);
+//
+//	return partition_Compare(arr, low, high, cmp);
+//}
+//
+//void quickSort_Compare(int arr[], int low, int high, long long& cmp) {
+//	if (++cmp && low < high) {
+//		int pivot = median_Compare(arr, low, high, cmp);
+//		quickSort_Compare(arr, low, pivot - 1, cmp);
+//		quickSort_Compare(arr, pivot + 1, high, cmp);
+//	}
+//}
 
 void quickSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	if (output == 1) {
+	/*if (output == 1) {
 		quickSort_Time(a, 0, size - 1, t);
 	}
 	else if (output == 2) {
@@ -442,7 +443,7 @@ void quickSort(int a[], int size, double& t, long long& cmp, int output, string 
 	else if (output == 3) {
 		quickSort_Time(a, 0, size - 1, t);
 		quickSort_Compare(a, 0, size - 1, cmp);
-	}
+	}*/
 }
 
 //RADIX SORT
