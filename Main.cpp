@@ -94,13 +94,13 @@ void algoGen(int algo, int* a, int size, double &t, long long &cmp, int output, 
 void outputAlgo(int output, double t, long long cmp) {
 	switch (output) {
 	case 1: 
-		cout << "Running time: " << t << endl;
+		cout << "Running time: " << t << "ms" << endl;
 		break;
 	case 2:
 		cout << "Comparisons: " << cmp << endl;
 		break;
 	default:
-		cout << "Running time: " << t << endl;
+		cout << "Running time: " << t << "ms" << endl;
 		cout << "Comparisons: " << cmp << endl;
 		break;
 	}
