@@ -537,9 +537,9 @@ void countSort_Compare(int array[], int size, int place, long long& cmp) {
 }
 
 void radixSort_Compare(int array[], int size, long long& cmp) {
-	int max = getMax_Time(array, size);
+	int max = getMax_Compare(array, size, cmp);
 	for (int place = 1; ++cmp && max / place > 0; place *= 10)
-		countSort_Time(array, size, place);
+		countSort_Compare(array, size, place, cmp);
 }
 
 void radixSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
