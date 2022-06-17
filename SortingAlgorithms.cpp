@@ -374,102 +374,129 @@ void mergeSort(int a[], int size, double& t, long long& cmp, int output, string 
 
 //QUICK SORT
 
-//int partition_Time(int arr[], int low, int high) {
-//	int i = low;
-//	int j = high;
-//	int pivot = arr[low];
-//	while (i < j) {
-//		while (pivot >= arr[i])
-//			i++;
-//		while (pivot < arr[j])
-//			j--;
-//		if (i < j)
-//			swap(arr[i], arr[j]);
-//	}
-//	swap(arr[low], arr[j]);
-//	return j;
-//}
-//
-//int median_Time(int arr[], int low, int high) {
-//	int middle = (low + high) / 2;
-//
-//	if (arr[low] > arr[middle])
-//		swap(arr[middle], arr[low]);
-//	if (arr[low] > arr[high])
-//		swap(arr[low], arr[high]);
-//	if (arr[middle] > arr[high])
-//		swap(arr[high], arr[middle]);
-//
-//	swap(arr[middle], arr[low]);
-//
-//	return partition_Time(arr, low, high);
-//}
-//
-//void quickSort_Time(int arr[], int low, int high) {
-//	if (low < high) {
-//		int pivot = median_Time(arr, low, high);
-//		quickSort_Time(arr, low, pivot - 1);
-//		quickSort_Time(arr, pivot + 1, high);
-//	}
-//}
-//
-//void quickSort_Time(int arr[], int low, int high, double& t) {
-//	auto start = chrono::high_resolution_clock::now();
-//	quickSort_Time(arr, low, high, t);
-//	auto end = chrono::high_resolution_clock::now();
-//	t += chrono::duration_cast<chrono::milliseconds>(end - start).count();
-//}
-//
-//int partition_Compare(int arr[], int low, int high, long long& cmp) {
-//	int i = low;
-//	int j = high;
-//	int pivot = arr[low];
-//	while (++cmp && i < j) {
-//		while (++cmp && pivot >= arr[i])
-//			i++;
-//		while (++cmp && pivot < arr[j])
-//			j--;
-//		if (++cmp && i < j)
-//			swap(arr[i], arr[j]);
-//	}
-//	swap(arr[low], arr[j]);
-//	return j;
-//}
-//
-//int median_Compare(int arr[], int low, int high, long long& cmp) {
-//	int middle = (low + high) / 2;
-//
-//	if (++cmp && arr[low] > arr[middle])
-//		swap(arr[middle], arr[low]);
-//	if (++cmp && arr[low] > arr[high])
-//		swap(arr[low], arr[high]);
-//	if (++cmp && arr[middle] > arr[high])
-//		swap(arr[high], arr[middle]);
-//
-//	swap(arr[middle], arr[low]);
-//
-//	return partition_Compare(arr, low, high, cmp);
-//}
-//
-//void quickSort_Compare(int arr[], int low, int high, long long& cmp) {
-//	if (++cmp && low < high) {
-//		int pivot = median_Compare(arr, low, high, cmp);
-//		quickSort_Compare(arr, low, pivot - 1, cmp);
-//		quickSort_Compare(arr, pivot + 1, high, cmp);
-//	}
-//}
+int partition(int* arr, int low, int high)
+{
+	int i = low;
+	int j = high;
+	int pivot = arr[low];
+	while (i < j)
+	{
+		while (pivot >= arr[i])
+			i++;
+		while (pivot < arr[j])
+			j--;
+		if (i < j)
+			swap(arr[i], arr[j]);
+	}
+	swap(arr[low], arr[j]);
+	return j;
+}
+
+int median(int* arr, int low, int high)
+{
+	int middle = (low + high) / 2;
+
+	if (arr[low] > arr[middle])
+		swap(arr[middle], arr[low]);
+	if (arr[low] > arr[high])
+		swap(arr[low], arr[high]);
+	if (arr[middle] > arr[high])
+		swap(arr[high], arr[middle]);
+
+	swap(arr[middle], arr[low]);
+
+	return partition(arr, low, high);
+}
+
+void quickSort(int arr[], int low, int high)
+{
+	if (low < high)
+	{
+		int pivot = median(arr, low, high);
+		quickSort(arr, low, pivot - 1);
+		quickSort(arr, pivot + 1, high);
+	}
+}
+void RunTime(int* arr, int n, clock_t& time) {
+	clock_t start, end;
+
+	start = clock();
+	quickSort(arr, 0, n - 1);
+	end = clock();
+	time = (double)(end - start) / (CLOCKS_PER_SEC / 1000);
+}
+
+int C_partition(int* arr, int low, int high, long long* p)
+{
+	int i = low;
+	int j = high;
+	int pivot = arr[low];
+	while ((*p = *p + 1) && (i < j))
+	{
+		while ((*p = *p + 1) && (pivot >= arr[i]))
+		{
+			i++;
+		}
+		while ((*p = *p + 1) && (pivot < arr[j]))
+		{
+			j--;
+		}
+		if ((*p = *p + 1) && (i < j))
+		{
+			swap(arr[i], arr[j]);
+		}
+	}
+	swap(arr[low], arr[j]);
+	return j;
+}
+
+int C_median(int arr[], int low, int high, long long* p)
+{
+	int middle = (low + high) / 2;
+
+	if ((*p = *p + 1) && (arr[low] > arr[middle]))
+	{
+
+		swap(arr[middle], arr[low]);
+	}
+	if ((*p = *p + 1) && (arr[low] > arr[high]))
+	{
+		swap(arr[low], arr[high]);
+	}
+	if ((*p = *p + 1) && (arr[middle] > arr[high]))
+	{
+		swap(arr[high], arr[middle]);
+	}
+
+	swap(arr[middle], arr[low]);
+
+	return partition(arr, low, high);
+
+}
+void C_quickSort(int* arr, int low, int high, long long* p) {
+	if ((*p = *p + 1) && (low < high)) {
+		int pivot = C_partition(arr, low, high, p);
+		C_quickSort(arr, low, pivot - 1, p);
+		C_quickSort(arr, pivot + 1, high, p);
+	}
+}
+
+void quickSort_Compare(int* arr, int n, long long& count) {
+	C_quickSort(arr, 0, n - 1, &count);
+
+}
 
 void quickSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	/*if (output == 1) {
-		quickSort_Time(a, 0, size - 1, t);
+	if (output == 1) {
+		//quickSort_Time(a, 0, size - 1, t);
 	}
 	else if (output == 2) {
-		quickSort_Compare(a, 0, size - 1, cmp);
+		quickSort_Compare(a, size, cmp);
 	}
 	else if (output == 3) {
-		quickSort_Time(a, 0, size - 1, t);
-		quickSort_Compare(a, 0, size - 1, cmp);
-	}*/
+		//quickSort_Time(a, 0, size - 1, t);
+		quickSort_Compare(a, size, cmp);
+	}
 }
 
 //RADIX SORT
