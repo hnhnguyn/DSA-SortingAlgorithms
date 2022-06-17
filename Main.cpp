@@ -113,14 +113,6 @@ void cmd3gen(int algo, int a[], int size, int order, int output, double &t, long
 void cmd4(int algo1, string al1, int algo2, string al2, char input_file[]);
 void cmd5(int algo1, string al1, int algo2, string al2, int size, int order, char ord[]);
 
-void readFile(string file, int* a, int size) {
-	ifstream in(file);
-	in.ignore();
-	for (int i = 0; i < size; i++)
-		in >> a[i];
-	in.close();
-}
-
 void writeFile(string file, int* a, int size) {
 	ofstream out(file);
 	out << size << '\n';

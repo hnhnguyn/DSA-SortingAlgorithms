@@ -1,6 +1,15 @@
 #include "SortingAlgorithms.h"
 
+void readFile(string file, int* a, int size) {
+	ifstream in(file);
+	in.ignore();
+	for (int i = 0; i < size; i++)
+		in >> a[i];
+	in.close();
+}
+
 //SELECTION SORT
+
 void selectionSort_Time(int a[], int n, double& t) {
 	auto start = chrono::high_resolution_clock::now();
 	int i, j, pos;
@@ -39,11 +48,13 @@ void selectionSort(int a[], int size, double& t, long long& cmp, int output, str
 	}
 	else if (output == 3) {
 		selectionSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		selectionSort_Compare(a, size, cmp);
 	}
 }
 
 //INSERTION SORT
+
 void insertionSort_Time(int a[], int n, double& t) {
 	auto start = chrono::high_resolution_clock::now();
 	int x, i, j;
@@ -82,33 +93,35 @@ void insertionSort(int a[], int size, double& t, long long& cmp, int output, str
 	}
 	else if (output == 3) {
 		insertionSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		insertionSort_Compare(a, size, cmp);
 	}
 }
 
 
 //BUBBLE SORT
-void bubbleSort_Time(int a[], int n, double& t) {
-	auto start = chrono::high_resolution_clock::now();
-	int i, j;
-	for (i = 0; i < n - 1; i++)
-		for (j = 0; j < n - i - 1; j++)
-			if (a[j] > a[j + 1])
-				swap(a[j], a[j + 1]);
-	auto end = chrono::high_resolution_clock::now();
-	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-}
 
-void bubbleSort_Compare(int a[], int n, long long& cmp) {
-	int i, j;
-	for (i = 0; ++cmp && i < n - 1; i++)
-		for (j = 0; ++cmp && j < n - i - 1; j++)
-			if (++cmp && a[j] > a[j + 1])
-				swap(a[j], a[j + 1]);
-}
+//void bubbleSort_Time(int a[], int n, double& t) {
+//	auto start = chrono::high_resolution_clock::now();
+//	int i, j;
+//	for (i = 0; i < n - 1; i++)
+//		for (j = 0; j < n - i - 1; j++)
+//			if (a[j] > a[j + 1])
+//				swap(a[j], a[j + 1]);
+//	auto end = chrono::high_resolution_clock::now();
+//	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+//}
+//
+//void bubbleSort_Compare(int a[], int n, long long& cmp) {
+//	int i, j;
+//	for (i = 0; ++cmp && i < n - 1; i++)
+//		for (j = 0; ++cmp && j < n - i - 1; j++)
+//			if (++cmp && a[j] > a[j + 1])
+//				swap(a[j], a[j + 1]);
+//}
 
 void bubbleSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	if (output == 1) {
+	/*if (output == 1) {
 		bubbleSort_Time(a, size, t);
 	}
 	else if (output == 2) {
@@ -117,10 +130,11 @@ void bubbleSort(int a[], int size, double& t, long long& cmp, int output, string
 	else if (output == 3) {
 		bubbleSort_Time(a, size, t);
 		bubbleSort_Compare(a, size, cmp);
-	}
+	}*/
 }
 
 //HEAP SORT
+
 void heapRebuild_Time(int pos, int A[], int n) {
 	int k = pos;
 	int v = A[k];
@@ -211,11 +225,13 @@ void heapSort(int a[], int size, double& t, long long& cmp, int output, string d
 	}
 	else if (output == 3) {
 		heapSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		heapSort_Compare(a, size, cmp);
 	}
 }
 
 //MERGE SORT
+
 void merge_Time(int A[], int left, int mid, int right) {
 	int nA = mid - left + 1;
 	int nB = right - mid;
@@ -343,11 +359,13 @@ void mergeSort(int a[], int size, double& t, long long& cmp, int output, string 
 	}
 	else if (output == 3) {
 		mergeSort_Time(a, 0, size, t);
+		readFile(data_file, a, size);
 		mergeSort_Compare(a, 0, size, cmp);
 	}
 }
 
 //QUICK SORT
+
 //int partition_Time(int arr[], int low, int high) {
 //	int i = low;
 //	int j = high;
@@ -447,6 +465,7 @@ void quickSort(int a[], int size, double& t, long long& cmp, int output, string 
 }
 
 //RADIX SORT
+
 int getMax_Time(int array[], int n) {
 	int max = array[0];
 	for (int i = 1; i < n; i++)
@@ -532,11 +551,13 @@ void radixSort(int a[], int size, double& t, long long& cmp, int output, string 
 	}
 	else if (output == 3) {
 		radixSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		radixSort_Compare(a, size, cmp);
 	}
 }
 
 //SHAKER SORT
+
 void shakerSort_Time(int a[], int n, double& t) {
 	auto start = chrono::high_resolution_clock::now();
 	int left, right, j, k;
@@ -595,45 +616,47 @@ void shakerSort(int a[], int size, double& t, long long& cmp, int output, string
 	}
 	else if (output == 3) {
 		shakerSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		shakerSort_Compare(a, size, cmp);
 	}
 }
 
 //SHELL SORT
-void shellSort_Time(int array[], int n, double& t) {
-	auto start = chrono::high_resolution_clock::now();
-	for (int interval = n / 2; interval > 0; interval /= 2)
-	{
-		for (int i = interval; i < n; i += 1)
-		{
-			int temp = array[i];
-			int j;
-			for (j = i; j >= interval && array[j - interval] > temp; j -= interval)
-			{
-				array[j] = array[j - interval];
-			}
-			array[j] = temp;
-		}
-	}
-	auto end = chrono::high_resolution_clock::now();
-	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-}
 
-void shellSort_Compare(int array[], int n, long long& cmp) {
-	for (int interval = n / 2; ++cmp && interval > 0; interval /= 2) {
-		for (int i = interval; ++cmp && i < n; i += 1) {
-			int temp = array[i];
-			int j;
-			for (j = i; ++cmp && j >= interval && ++cmp && array[j - interval] > temp; j -= interval) {
-				array[j] = array[j - interval];
-			}
-			array[j] = temp;
-		}
-	}
-}
+//void shellSort_Time(int array[], int n, double& t) {
+//	auto start = chrono::high_resolution_clock::now();
+//	for (int interval = n / 2; interval > 0; interval /= 2)
+//	{
+//		for (int i = interval; i < n; i += 1)
+//		{
+//			int temp = array[i];
+//			int j;
+//			for (j = i; j >= interval && array[j - interval] > temp; j -= interval)
+//			{
+//				array[j] = array[j - interval];
+//			}
+//			array[j] = temp;
+//		}
+//	}
+//	auto end = chrono::high_resolution_clock::now();
+//	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+//}
+//
+//void shellSort_Compare(int array[], int n, long long& cmp) {
+//	for (int interval = n / 2; ++cmp && interval > 0; interval /= 2) {
+//		for (int i = interval; ++cmp && i < n; i += 1) {
+//			int temp = array[i];
+//			int j;
+//			for (j = i; ++cmp && j >= interval && ++cmp && array[j - interval] > temp; j -= interval) {
+//				array[j] = array[j - interval];
+//			}
+//			array[j] = temp;
+//		}
+//	}
+//}
 
 void shellSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	if (output == 1) {
+	/*if (output == 1) {
 		shellSort_Time(a, size, t);
 	}
 	else if (output == 2) {
@@ -642,10 +665,11 @@ void shellSort(int a[], int size, double& t, long long& cmp, int output, string 
 	else if (output == 3) {
 		shellSort_Time(a, size, t);
 		shellSort_Compare(a, size, cmp);
-	}
+	}*/
 }
 
 //COUNTING SORT
+
 void countingSort_Time(int input[], int n, double& t) {
 	auto start = chrono::high_resolution_clock::now();
 	int* output = new int[n];
@@ -730,11 +754,13 @@ void countingSort(int a[], int size, double& t, long long& cmp, int output, stri
 	}
 	else if (output == 3) {
 		countingSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		countingSort_Compare(a, size, cmp);
 	}
 }
 
 //FLASH SORT
+
 void flashSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
 
 }
