@@ -1,11 +1,19 @@
 #include "SortingAlgorithms.h"
 
-void readFile(string file, int* a, int size) {
+void readFile(string file, int a[], int size) {
 	ifstream in(file);
-	in.ignore();
+	string s;
+	getline(in, s);
 	for (int i = 0; i < size; i++)
 		in >> a[i];
 	in.close();
+}
+
+void printArr(int a[], int size) {
+	for (int i = 0; i < size; i++)
+		cout << a[i] << " ";
+	cout << endl;
+	cout << endl;
 }
 
 //SELECTION SORT

@@ -170,6 +170,7 @@ int main(int argc, char* argv[]) {
 }
 
 void cmd1(int algo, string al, char input_file[], int output) {
+	//cout << "1" << endl << endl;
 	ifstream in(input_file);
 	int size;
 	in >> size;

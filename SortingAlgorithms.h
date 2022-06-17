@@ -3,7 +3,7 @@
 #include<chrono> 
 #include "DataGenerator.h"
 
-void readFile(string file, int* a, int size);
+void readFile(string file, int a[], int size);
 void selectionSort(int a[], int size, double &t, long long &cmp, int output, string data_file);
 void insertionSort(int a[], int size, double &t, long long &cmp, int output, string data_file);
 void bubbleSort(int a[], int size, double &t, long long &cmp, int output, string data_file);
