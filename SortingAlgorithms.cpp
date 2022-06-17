@@ -9,13 +9,6 @@ void readFile(string file, int a[], int size) {
 	in.close();
 }
 
-void printArr(int a[], int size) {
-	for (int i = 0; i < size; i++)
-		cout << a[i] << " ";
-	cout << endl;
-	cout << endl;
-}
-
 //SELECTION SORT
 
 void selectionSort_Time(int a[], int n, double& t) {
@@ -106,30 +99,29 @@ void insertionSort(int a[], int size, double& t, long long& cmp, int output, str
 	}
 }
 
-
 //BUBBLE SORT
 
-//void bubbleSort_Time(int a[], int n, double& t) {
-//	auto start = chrono::high_resolution_clock::now();
-//	int i, j;
-//	for (i = 0; i < n - 1; i++)
-//		for (j = 0; j < n - i - 1; j++)
-//			if (a[j] > a[j + 1])
-//				swap(a[j], a[j + 1]);
-//	auto end = chrono::high_resolution_clock::now();
-//	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-//}
-//
-//void bubbleSort_Compare(int a[], int n, long long& cmp) {
-//	int i, j;
-//	for (i = 0; ++cmp && i < n - 1; i++)
-//		for (j = 0; ++cmp && j < n - i - 1; j++)
-//			if (++cmp && a[j] > a[j + 1])
-//				swap(a[j], a[j + 1]);
-//}
+void bubbleSort_Time(int a[], int n, double& t) {
+	auto start = chrono::high_resolution_clock::now();
+	int i, j;
+	for (i = 0; i < n - 1; i++)
+		for (j = 0; j < n - i - 1; j++)
+			if (a[j] > a[j + 1])
+				swap(a[j], a[j + 1]);
+	auto end = chrono::high_resolution_clock::now();
+	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+}
+
+void bubbleSort_Compare(int a[], int n, long long& cmp) {
+	int i, j;
+	for (i = 0; ++cmp && i < n - 1; i++)
+		for (j = 0; ++cmp && j < n - i - 1; j++)
+			if (++cmp && a[j] > a[j + 1])
+				swap(a[j], a[j + 1]);
+}
 
 void bubbleSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	/*if (output == 1) {
+	if (output == 1) {
 		bubbleSort_Time(a, size, t);
 	}
 	else if (output == 2) {
@@ -137,8 +129,9 @@ void bubbleSort(int a[], int size, double& t, long long& cmp, int output, string
 	}
 	else if (output == 3) {
 		bubbleSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		bubbleSort_Compare(a, size, cmp);
-	}*/
+	}
 }
 
 //HEAP SORT
@@ -374,13 +367,11 @@ void mergeSort(int a[], int size, double& t, long long& cmp, int output, string 
 
 //QUICK SORT
 
-int partition(int* arr, int low, int high)
-{
+int partition_Time(int* arr, int low, int high) {
 	int i = low;
 	int j = high;
 	int pivot = arr[low];
-	while (i < j)
-	{
+	while (i < j) {
 		while (pivot >= arr[i])
 			i++;
 		while (pivot < arr[j])
@@ -392,8 +383,7 @@ int partition(int* arr, int low, int high)
 	return j;
 }
 
-int median(int* arr, int low, int high)
-{
+int median_Time(int* arr, int low, int high) {
 	int middle = (low + high) / 2;
 
 	if (arr[low] > arr[middle])
@@ -405,44 +395,36 @@ int median(int* arr, int low, int high)
 
 	swap(arr[middle], arr[low]);
 
-	return partition(arr, low, high);
+	return partition_Time(arr, low, high);
 }
 
-void quickSort(int arr[], int low, int high)
-{
-	if (low < high)
-	{
-		int pivot = median(arr, low, high);
-		quickSort(arr, low, pivot - 1);
-		quickSort(arr, pivot + 1, high);
+void quickSort_Time(int* arr, int low, int high) {
+	if (low < high) {
+		int pivot = median_Time(arr, low, high);
+		quickSort_Time(arr, low, pivot - 1);
+		quickSort_Time(arr, pivot + 1, high);
 	}
 }
-void RunTime(int* arr, int n, clock_t& time) {
-	clock_t start, end;
 
-	start = clock();
-	quickSort(arr, 0, n - 1);
-	end = clock();
-	time = (double)(end - start) / (CLOCKS_PER_SEC / 1000);
+void quickSort_Time(int* arr, int n, double& t) {
+	auto start = chrono::high_resolution_clock::now();
+	quickSort_Time(arr, 0, n - 1);
+	auto end = chrono::high_resolution_clock::now();
+	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 }
 
-int C_partition(int* arr, int low, int high, long long* p)
-{
+int partition_Compare(int* arr, int low, int high, long long& cmp) {
 	int i = low;
 	int j = high;
 	int pivot = arr[low];
-	while ((*p = *p + 1) && (i < j))
-	{
-		while ((*p = *p + 1) && (pivot >= arr[i]))
-		{
+	while ((++cmp) && (i < j)) {
+		while ((++cmp) && (pivot >= arr[i])) {
 			i++;
 		}
-		while ((*p = *p + 1) && (pivot < arr[j]))
-		{
+		while ((++cmp) && (pivot < arr[j])) {
 			j--;
 		}
-		if ((*p = *p + 1) && (i < j))
-		{
+		if ((++cmp) && (i < j)) {
 			swap(arr[i], arr[j]);
 		}
 	}
@@ -450,51 +432,49 @@ int C_partition(int* arr, int low, int high, long long* p)
 	return j;
 }
 
-int C_median(int arr[], int low, int high, long long* p)
-{
+int median_Compare(int* arr, int low, int high, long long& cmp) {
 	int middle = (low + high) / 2;
 
-	if ((*p = *p + 1) && (arr[low] > arr[middle]))
-	{
+	if ((++cmp) && (arr[low] > arr[middle])) {
 
 		swap(arr[middle], arr[low]);
 	}
-	if ((*p = *p + 1) && (arr[low] > arr[high]))
-	{
+	if ((++cmp) && (arr[low] > arr[high])) {
 		swap(arr[low], arr[high]);
-	}
-	if ((*p = *p + 1) && (arr[middle] > arr[high]))
-	{
+	} 
+	if ((++cmp) && (arr[middle] > arr[high])) {
 		swap(arr[high], arr[middle]);
 	}
 
 	swap(arr[middle], arr[low]);
 
-	return partition(arr, low, high);
+	return partition_Compare(arr, low, high, cmp);
 
 }
-void C_quickSort(int* arr, int low, int high, long long* p) {
-	if ((*p = *p + 1) && (low < high)) {
-		int pivot = C_partition(arr, low, high, p);
-		C_quickSort(arr, low, pivot - 1, p);
-		C_quickSort(arr, pivot + 1, high, p);
+
+void quickSort_Compare(int* arr, int low, int high, long long& cmp) {
+	if ((++cmp) && (low < high)) {
+		int pivot = partition_Compare(arr, low, high, cmp);
+		quickSort_Compare(arr, low, pivot - 1, cmp);
+		quickSort_Compare(arr, pivot + 1, high, cmp);
 	}
 }
 
-void quickSort_Compare(int* arr, int n, long long& count) {
-	C_quickSort(arr, 0, n - 1, &count);
+void quickSort_Compare(int* arr, int n, long long& cmp) {
+	quickSort_Compare(arr, 0, n - 1, cmp);
 
 }
 
 void quickSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
 	if (output == 1) {
-		//quickSort_Time(a, 0, size - 1, t);
+		quickSort_Time(a, size, t);
 	}
 	else if (output == 2) {
 		quickSort_Compare(a, size, cmp);
 	}
 	else if (output == 3) {
-		//quickSort_Time(a, 0, size - 1, t);
+		quickSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		quickSort_Compare(a, size, cmp);
 	}
 }
@@ -658,40 +638,40 @@ void shakerSort(int a[], int size, double& t, long long& cmp, int output, string
 
 //SHELL SORT
 
-//void shellSort_Time(int array[], int n, double& t) {
-//	auto start = chrono::high_resolution_clock::now();
-//	for (int interval = n / 2; interval > 0; interval /= 2)
-//	{
-//		for (int i = interval; i < n; i += 1)
-//		{
-//			int temp = array[i];
-//			int j;
-//			for (j = i; j >= interval && array[j - interval] > temp; j -= interval)
-//			{
-//				array[j] = array[j - interval];
-//			}
-//			array[j] = temp;
-//		}
-//	}
-//	auto end = chrono::high_resolution_clock::now();
-//	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-//}
-//
-//void shellSort_Compare(int array[], int n, long long& cmp) {
-//	for (int interval = n / 2; ++cmp && interval > 0; interval /= 2) {
-//		for (int i = interval; ++cmp && i < n; i += 1) {
-//			int temp = array[i];
-//			int j;
-//			for (j = i; ++cmp && j >= interval && ++cmp && array[j - interval] > temp; j -= interval) {
-//				array[j] = array[j - interval];
-//			}
-//			array[j] = temp;
-//		}
-//	}
-//}
+void shellSort_Time(int array[], int n, double& t) {
+	auto start = chrono::high_resolution_clock::now();
+	for (int interval = n / 2; interval > 0; interval /= 2)
+	{
+		for (int i = interval; i < n; i += 1)
+		{
+			int temp = array[i];
+			int j;
+			for (j = i; j >= interval && array[j - interval] > temp; j -= interval)
+			{
+				array[j] = array[j - interval];
+			}
+			array[j] = temp;
+		}
+	}
+	auto end = chrono::high_resolution_clock::now();
+	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+}
+
+void shellSort_Compare(int array[], int n, long long& cmp) {
+	for (int interval = n / 2; ++cmp && interval > 0; interval /= 2) {
+		for (int i = interval; ++cmp && i < n; i += 1) {
+			int temp = array[i];
+			int j;
+			for (j = i; ++cmp && j >= interval && ++cmp && array[j - interval] > temp; j -= interval) {
+				array[j] = array[j - interval];
+			}
+			array[j] = temp;
+		}
+	}
+}
 
 void shellSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	/*if (output == 1) {
+	if (output == 1) {
 		shellSort_Time(a, size, t);
 	}
 	else if (output == 2) {
@@ -699,8 +679,9 @@ void shellSort(int a[], int size, double& t, long long& cmp, int output, string 
 	}
 	else if (output == 3) {
 		shellSort_Time(a, size, t);
+		readFile(data_file, a, size);
 		shellSort_Compare(a, size, cmp);
-	}*/
+	}
 }
 
 //COUNTING SORT
