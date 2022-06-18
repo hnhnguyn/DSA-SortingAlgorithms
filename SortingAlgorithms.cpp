@@ -777,138 +777,129 @@ void countingSort(int a[], int size, double& t, long long& cmp, int output, stri
 
 //FLASH SORT
 
-//void flashInsertionSort_Time(int* a, int s, int e) {
-//	for (int i = s; i < e - 1; ++i) {
-//		int pos = i;
-//		for (int j = i + 1; j < e; ++j) {
-//			if ((a[j] < a[pos])) {
-//				pos = j;
-//			}
-//		}
-//		swap(a[i], a[pos]);
-//	}
-//}
-//
-//void flashSort_Time(int* a, int size, double& t) {
-//	auto start = chrono::high_resolution_clock::now();
-//	int m = 0.45 * size;
-//	int* M = new int[m];
-//	for (int i = 0; i < m; i++)
-//		M[i] = 0;
-//
-//	int min = a[0], maxId = 0;
-//	for (int i = 0; i < size; i++) {
-//		if (a[i] < min)
-//			min = a[i];
-//		if (a[i] > a[maxId])
-//			maxId = i;
-//	}
-//
-//	for (int i = 0; i < size; i++) {
-//		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
-//		M[k]++; //bug here
-//	}
-//	for (int i = 1; i < m; i++) {
-//		M[i] = M[i] + M[i - 1];
-//	}
-//
-//	int* b = new int[size];
-//	for (int i = 0; i < size; i++) {
-//		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
-//		b[--M[k]] = a[i];
-//	}
-//
-//	for (int i = 0; i < m; i++)
-//		M[i] = 0;
-//	for (int i = 0; i < size; i++) {
-//		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
-//		M[k]++;
-//	}
-//	for (int i = 0; i < m - 1; i++) {
-//		M[i + 1] = M[i] + M[i + 1];
-//	}
-//
-//	for (int i = 0; i < size; i++)
-//		a[i] = b[i];
-//	delete[] b;
-//	int cnt = 0;
-//	int s = 0;
-//	while (cnt < m - 1) {
-//		flashInsertionSort_Time(a, s, M[cnt]);
-//		s = M[cnt];
-//		cnt++;
-//	}
-//	delete[] M;
-//	auto end = chrono::high_resolution_clock::now();
-//	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-//}
-//
-//void flashInsertionSort_Compare(int* a, int s, int e, long long& cmp) {
-//	for (int i = s; ++cmp && i < e - 1; ++i) {
-//		int pos = i;
-//		for (int j = i + 1; ++cmp && j < e; ++j) {
-//			if (++cmp && (a[j] < a[pos])) {
-//				pos = j;
-//			}
-//		}
-//		swap(a[i], a[pos]);
-//	}
-//}
-//
-//void flashSort_Compare(int* a, int size, long long& cmp) {
-//	int m = 0.45 * size;
-//	int* M = new int[m];
-//	for (int i = 0; ++cmp && i < m; i++)
-//		M[i] = 0;
-//
-//	int min = a[0], maxId = 0;
-//	for (int i = 0; ++cmp && i < size; i++) {
-//		if (++cmp && (a[i] < min))
-//			min = a[i];
-//		if (++cmp && (a[i] > a[maxId]))
-//			maxId = i;
-//	}
-//
-//	for (int i = 0; ++cmp && i < size; i++) {
-//		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
-//		M[k]++;
-//	}
-//	for (int i = 1; ++cmp && i < m; i++) {
-//		M[i] = M[i] + M[i - 1];
-//	}
-//
-//	int* b = new int[size];
-//	for (int i = 0; ++cmp && i < size; i++) {
-//		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
-//		b[--M[k]] = a[i];
-//	}
-//
-//	for (int i = 0; ++cmp && i < m; i++)
-//		M[i] = 0;
-//	for (int i = 0; ++cmp && i < size; i++) {
-//		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
-//		M[k]++;
-//	}
-//	for (int i = 0; ++cmp && i < m - 1; i++) {
-//		M[i + 1] = M[i] + M[i + 1];
-//	}
-//
-//	for (int i = 0; ++cmp && i < size; i++)
-//		a[i] = b[i];
-//	delete[] b;
-//
-//	int cnt = 0;
-//	int s = 0;
-//	while (++cmp && (cnt < m - 1)) {
-//		flashInsertionSort_Compare(a, s, M[cnt], cmp);
-//		s = M[cnt];
-//		cnt++;
-//	}
-//	delete[] M;
-//}
+void flashInsertionSort_Time(int* a, int s, int e) {
+	for (int i = s; i < e - 1; ++i) {
+		int pos = i;
+		for (int j = i + 1; j < e; ++j) {
+			if ((a[j] < a[pos])) {
+				pos = j;
+			}
+		}
+		swap(a[i], a[pos]);
+	}
+}
+
+void flashSort_Time(int* a, int size, double& t) {
+	auto start = chrono::high_resolution_clock::now();
+	int m = 0.005 * size;
+	int* M = new int[m];
+	int* _M = new int[m];
+	for (int i = 0; i < m; i++) {
+		M[i] = 0;
+	}
+
+	int min = a[0], maxId = 0;
+	for (int i = 0; i < size; i++) {
+		if (a[i] < min)
+			min = a[i];
+		if (a[i] > a[maxId])
+			maxId = i;
+	}
+
+	for (int i = 0; i < size; i++) {
+		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
+		M[k]++;
+	}
+	for (int i = 0; i < m - 1; i++) {
+		M[i + 1] = M[i] + M[i + 1];
+		_M[i] = M[i];
+	}
+	_M[m - 1] = M[m - 1];
+
+	int* b = new int[size];
+	for (int i = 0; i < size; i++) {
+		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
+		b[--M[k]] = a[i];
+	}
+
+	for (int i = 0; i < size; i++)
+		a[i] = b[i];
+	delete[] b;
+
+	int cnt = 0;
+	int s = 0;
+	while (cnt < m - 1) {
+		flashInsertionSort_Time(a, s, _M[cnt]);
+		s = _M[cnt];
+		cnt++;
+	}
+	delete[] M;
+	delete[] _M;
+	auto end = chrono::high_resolution_clock::now();
+	t = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+}
+
+void flashInsertionSort_Compare(int* a, int s, int e, long long& cmp) {
+	for (int i = s; ++cmp && i < e - 1; ++i) {
+		int pos = i;
+		for (int j = i + 1; ++cmp && j < e; ++j) {
+			if (++cmp && (a[j] < a[pos])) {
+				pos = j;
+			}
+		}
+		swap(a[i], a[pos]);
+	}
+}
+
+void flashSort_Compare(int* a, int size, long long& cmp) {
+	int m = 0.005 * size;
+	int* M = new int[m];
+	int* _M = new int[m];
+	for (int i = 0; ++cmp && i < m; i++) {
+		_M[i] = 0;
+		M[i] = 0;
+	}
+
+	int min = a[0], maxId = 0;
+	for (int i = 0; ++cmp && i < size; i++) {
+		if (++cmp && (a[i] < min))
+			min = a[i];
+		if (++cmp && (a[i] > a[maxId]))
+			maxId = i;
+	}
+
+	for (int i = 0; ++cmp && i < size; i++) {
+		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
+		M[k]++;
+	}
+	for (int i = 0; ++cmp && i < m - 1; i++) {
+		M[i + 1] = M[i] + M[i + 1];
+		_M[i] = M[i];
+	}
+	_M[m - 1] = M[m - 1];
+
+	int* b = new int[size];
+	for (int i = 0; ++cmp && i < size; i++) {
+		int k = (m - 1) * (a[i] - min) / (a[maxId] - min);
+		b[--M[k]] = a[i];
+	}
+
+	for (int i = 0; ++cmp && i < size; i++)
+		a[i] = b[i];
+	delete[] b;
+
+	int cnt = 0;
+	int s = 0;
+	while (++cmp && (cnt < m - 1)) {
+		flashInsertionSort_Compare(a, s, M[cnt], cmp);
+		s = M[cnt];
+		cnt++;
+	}
+	delete[] M;
+}
 
 void flashSort(int a[], int size, double& t, long long& cmp, int output, string data_file) {
-	/*if (output == 1)
+	if (output == 1)
 		flashSort_Time(a, size, t);
 	else if (output == 2)
 		flashSort_Compare(a, size, cmp);
@@ -916,5 +907,5 @@ void flashSort(int a[], int size, double& t, long long& cmp, int output, string 
 		flashSort_Time(a, size, t);
 		readFile(data_file, a, size);
 		flashSort_Compare(a, size, cmp);
-	}*/
+	}
 }
