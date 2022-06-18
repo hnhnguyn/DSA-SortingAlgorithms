@@ -157,11 +157,12 @@ int main(int argc, char* argv[]) {
 					cmd4(algo1, argv[2], algo2, argv[3], argv[4]);
 				}
 				else {
-					if (atoi(argv[3]) > 1000000 || atoi(argv[3]) <= 0)
+					if (atoi(argv[4]) > 1000000 || atoi(argv[4]) <= 0)
 						return 0;
 					int order = checkOrderValid(argv[5]);
-					if (order)
+					if (order) {
 						cmd5(algo1, argv[2], algo2, argv[3], atoi(argv[4]), order, argv[5]);
+					}
 				}
 			}
 		}
