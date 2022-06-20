@@ -84,4 +84,8 @@ void countingSort(int a[], int size, double& t, long long& cmp, int output, stri
 
 //FLASH SORT
 
+void flashInsertionSort_Time(int* a, int s, int e);
+void flashSort_Time(int* a, int size, double& t);
+void flashInsertionSort_Compare(int* a, int s, int e, long long& cmp);
+void flashSort_Compare(int* a, int size, long long& cmp);
 void flashSort(int a[], int size, double& t, long long& cmp, int output, string data_file);
