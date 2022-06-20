@@ -75,7 +75,7 @@ int checkOutputValid(string output) {
 	return 0;
 }
 
-void algoGen(int algo, int* a, int size, double &t, long long &cmp, int output, string data_file) {
+void algoGen(int algo, int* a, int size, double& t, long long& cmp, int output, string data_file) {
 	switch (algo) {
 	case 1: selectionSort(a, size, t, cmp, output, data_file); break;
 	case 2: insertionSort(a, size, t, cmp, output, data_file); break;
